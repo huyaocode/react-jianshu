@@ -72,6 +72,14 @@ combineReducer 能够使得我们可以将reducer拆分，我们可以把reducer
 
 ```
 
+#### 定义一个事件需要做那几步？
+1. 在组件上挂载某事件的回调函数（在render函数入口处使用解构运算符结构出这个函数）
+2. 在mapDispatchToProps中定义对应的函数
+3. 在constants.js中定义一个变量作为aciton的type
+4. 在actionCreators中定义一个的action。
+5. 在mapDispatchToProps中的函数中dispatch这个action (这一步熟练后课合并到第二步)
+6. 在reducer的switch语句中添加对这个action的处理
+
 #### immutable.js
 immutable.js是一个第三方的库，它可以帮助我们生成一个immutable对象，这个对象是不可以被改变的。如果将store向reducer传递的state包装成一个immutable对象的话就可以避免直接修改state这种情况的发生。
 
@@ -108,3 +116,7 @@ state.getIn(['header','focused'])
 //等价于以下代码
 state.get('header').get('focused')
 ```
+**immutable中将数据设置为异步数据**
+使用fromJS函数处理过的state对象是immutable对象，而异步请求获得的数据为普通的JS对象。
+所以直接在把异步数据提交到reducer中希望创建新的state的时候就会出问题。
+所以，我们需要将异步数据也先用formJS 把它转为immutable对象后在交给reduer函数。这一点需要注意

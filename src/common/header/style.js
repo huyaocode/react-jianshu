@@ -1,8 +1,6 @@
 import styled from 'styled-components'
 import logoPic from '../../statics/logo.png'
 
-const cursorPointor = 'cursor: pointer;'
-
 export const HeaderWrapper = styled.div`
   position: relative;
   height: 56px;
@@ -34,7 +32,7 @@ export const NavItem = styled.div`
   padding: 0 15px;
   font-size: 17px;
   color: #333;
-  ${cursorPointor}
+  cursor: pointer;
   &.left {
     float: left;
   }
@@ -50,8 +48,8 @@ export const NavItem = styled.div`
 export const NavSearch = styled.div`
   float: left;
   position: relative;
-  .iconfont {
-    ${cursorPointor}
+  .zoom {
+    cursor: pointer;
     position: absolute;
     right: 5px;
     bottom: 5px;
@@ -97,7 +95,7 @@ export const SearchInput = styled.input.attrs({
     transition: all 0.2s ease-in;
   }
   &.slide-exit-active {
-    width: 160px;    
+    width: 160px;
   }
 `
 export const SearchInfo = styled.div`
@@ -105,8 +103,8 @@ export const SearchInfo = styled.div`
   top: 56px;
   left: 0;
   width: 200px;
-  padding: 10px;
-  box-shadow: 0 0 8px rgba(0,0,0,.2);
+  padding: 20px 15px 15px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
   border-radius: 3px;
 `
 
@@ -119,6 +117,18 @@ export const SearchInfoTitle = styled.div`
 export const SearchInfoSwitch = styled.span`
   float: right;
   font-size: 13px;
+  line-height: 13px;
+  cursor: pointer;
+  position: relative;
+  .spin {
+    display: block;
+    float: left;
+    font-size: 13px;
+    margin-right: 3px;
+    transition: all 0.2s ease-out;
+    transform: rotate(0deg);
+    transform-origin: center center;
+  }
 `
 
 export const SearchInfoItem = styled.a`
@@ -131,6 +141,7 @@ export const SearchInfoItem = styled.a`
   border: 1px solid #ddd;
   border-radius: 2px;
   color: #969696;
+  cursor: pointer;
 `
 
 export const Addition = styled.div`
@@ -141,7 +152,7 @@ export const Addition = styled.div`
 `
 
 export const Button = styled.div`
-  ${cursorPointor}
+  cursor: pointer;
   float: right;
   margin-top: 9px;
   margin-right: 20px;

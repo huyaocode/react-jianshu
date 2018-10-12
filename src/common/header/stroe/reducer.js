@@ -3,16 +3,31 @@ import { fromJS } from 'immutable'
 
 //通过下面的方式，可以把对象包装为immutable对象
 const defaultState = fromJS({
-  focused: false
+  focused: false,
+  list: [],
+  curPage: 1,
+  totalPage: 1,
+  hanEentered: false
 })
 
 export default (state = defaultState, action) => {
-  const {type} = action;
-  console.log(action)
-  if(type === constants.CHANGE_SEARCH_FOCUS) {
-    //immutable对象的set方法会拷贝之前immutable对象的值
-    //和设置的新值，然后返回一个全新的对象，他不会去真的修改原对象。
-    return state.set('focused', action.value);
+  switch (action.type) {
+    case constants.SEARCH_FOCUS:
+      return state.set('focused', true)
+    case constants.SEARCH_BLUR:
+      return state.set('focused', false)
+    case constants.MOUSE_ENTER:
+      return state.set('hanEentered', true)
+    case constants.MOUSE_LEAVE:
+      return state.set('hanEentered', false)
+    case constants.CHANGE_PAGE:
+      return state.set('curPage', action.value)
+    case constants.CHANGE_HOT_LIST:
+      return state.merge({
+        list: action.list,
+        totalPage: action.totalPage
+      })
+    default:
+      return state
   }
-  return state;
 }

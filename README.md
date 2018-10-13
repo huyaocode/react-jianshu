@@ -120,3 +120,38 @@ state.get('header').get('focused')
 使用fromJS函数处理过的state对象是immutable对象，而异步请求获得的数据为普通的JS对象。
 所以直接在把异步数据提交到reducer中希望创建新的state的时候就会出问题。
 所以，我们需要将异步数据也先用formJS 把它转为immutable对象后在交给reduer函数。这一点需要注意
+
+immutable向数组中添加元素
+使用concat方法
+```
+state.set('articleList', state.get('articleList').concat(action.value))
+```
+
+**merge方法**
+merge方法可以更方便的一次性合并多个属性，并且合并的内容可以是原生的JS对象，而set方法在修改对象的时候必须要求心传入的值是immutable对象
+
+
+#### react-router-dom
+使用 react-router-dom 来配置路由
+文档地址：[https://reacttraining.com/react-router/web/example/basic](https://reacttraining.com/react-router/web/example/basic)
+
+```javascript
+import { BrowserRouter, Route } from 'react-router-dom'
+class App extends Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <div>
+          <Header />  {/*这里是一直出现在页面中的header部分*/}
+          <BrowserRouter>   {/*这里是根据路由显示的router部分*/}
+            <div>       {/*exact表示完全匹配，不加这个的话 /detail 中也能匹配到/，就会让其他页面都展示出header */}
+              <Route path="/" exact component={Home} />
+              <Route path="/detail" exact component={Detail}  />
+            </div>
+          </BrowserRouter>
+        </div>
+      </Provider>
+    )
+  }
+}
+```

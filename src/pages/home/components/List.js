@@ -6,13 +6,12 @@ import { actionCreators } from '../store'
 
 class List extends Component {
   render() {
-    console.log('list render')
     const { list, getMoreList, page } = this.props
     return (
       <ListWrapper>
         {list.map((item, index) => {
           return (
-            <Link to={'/detail'} key={index}>
+            <Link to={'/detail/' + item.get('id')} key={index}>
               <ListItem>
                 <ListInfo>
                   <h3>{item.get('title')}</h3>

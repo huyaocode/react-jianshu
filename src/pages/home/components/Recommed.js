@@ -15,7 +15,6 @@ class Recommend extends Component {
           list.map( (item) => <RecommendItem imgUrl={item.get('imgUrl')} key={item.get('id')}/>)
         }
       </RecommendWrapper>
-      
     )
   }
 }

@@ -18,6 +18,7 @@ class BackTop extends Component {
     window.addEventListener('scroll', this.props.changeScrollTopShow)
   }
   componentWillUnmount() {
+    window.scrollTo(0, 0)
     window.removeEventListener('scroll', this.props.changeScrollTopShow)
   }
 }

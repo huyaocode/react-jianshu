@@ -4,6 +4,7 @@ import Topic from './components/Topic'
 import List from './components/List'
 import Recommed from './components/Recommed'
 import Writer from './components/Writer'
+import {BackTop} from '../../common/tools'
 import { actionCreators } from './store'
 import { HomeWrapper, HomeLeft, HomeRight } from './style.js'
 
@@ -24,6 +25,7 @@ class Home extends Component {
           <Recommed />
           <Writer />
         </HomeRight>
+        <BackTop/>
       </HomeWrapper>
     )
   }

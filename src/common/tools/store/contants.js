@@ -1,0 +1,1 @@
+export const TOGGLE_SCROLL_TOP = 'toll/backtop/TOGGLE_SCROLL_TOP'

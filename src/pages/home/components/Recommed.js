@@ -7,6 +7,7 @@ import {
 
 class Recommend extends Component {
   render() {
+    console.log('recommend render')
     const { list } = this.props;
     return (
       <RecommendWrapper>

@@ -2,15 +2,24 @@
 
 ### 技术栈
 
-React + Redux + styled-components
+| what                   | way                                      |
+| ---------------------- | ---------------------------------------- |
+| React                  | 创建组件                                 |
+| Redux                  | 管理数据                                 |
+| react-redux            | 方便使用 redux                           |
+| immutable.js           | 保证 redux 的 state 不被修改              |
+| react-router           | 路由管理                                 |
+| react-loadable         | 实现异步组件，而不是所有代码都打包在一起    |
+| styled-components      | 模块化 CSS                               |
+| react-transition-group | 动态改变 class 属性值实现 react 动画       |
 
 ### styled-components
 
 使用 styled-components 有以下几个好处:
 
-1. 零件化。每一个导出的其实都是一个有样式的标签，可以方便的被组件使用。
+1. 零件化。每一个导出的组件其实都是一个有样式的标签，可以方便的被组件使用。
 2. 可以像 sass 等一样嵌套标签
-3. 代码分离
+3. 样式代码与布局代码分离
 4. 避免样式冲突，他不会影响其他组件的样式
 5. 方便的为标签添加属性
 
@@ -98,7 +107,7 @@ immutable.js 是一个第三方的库，它可以帮助我们生成一个 immuta
 
 fromJS 可以把对象包装为 immutable 对象
 
-```
+```JavaScript
 const defaultState = fromJS({
   focused: false
 })
@@ -107,15 +116,23 @@ const defaultState = fromJS({
 set 方法
 immutable 对象的 set 方法会拷贝之前 immutable 对象的值和设置的新值，返回一个全新的对象，他不会去真的修改原对象。
 
-```
+```JavaScript
 state.set('focused', true);
 ```
 
 get 方法
 immutable 对象不可以直接使用 “.” 或者 [] 来直接获取对象值，必须通过 get 方法
 
-```
+```JavaScript
 let focused = header.get('focused')
+```
+
+getIn 方法
+
+```JavaScript
+state.getIn(['header','focused'])
+//等价于以下代码
+state.get('header').get('focused')
 ```
 
 ### redux-immutable
@@ -123,21 +140,13 @@ let focused = header.get('focused')
 虽然使用了 immutable.js 让 combineReducer 拆出来的组件的 reducer 中的 state 变成了 immutable 对象，但是整个项目的 store 还是一个普通的 JS 对象，使用 redux-immutable 就可以让整个 store 变成一个 immutable 对象。
 我们在直接连接 store 的 reducer 中用 redux-immutable 生成一个 combineReducers，用它替换 redux 自带的 combineReducers
 
-```
+```JavaScript
 import { combineReducers } from 'redux-immutable'
 import {reducer as headerReducer} from '../common/header/stroe'
 
 export default combineReducers({
   header: headerReducer
 })
-```
-
-使用数据：
-
-```
-state.getIn(['header','focused'])
-//等价于以下代码
-state.get('header').get('focused')
 ```
 
 **immutable 中将数据设置为异步数据**
@@ -148,7 +157,7 @@ state.get('header').get('focused')
 immutable 向数组中添加元素
 使用 concat 方法
 
-```
+```javascript
 state.set('articleList', state.get('articleList').concat(action.value))
 ```
 
@@ -169,10 +178,8 @@ class App extends Component {
         <div>
           <Header /> {/*这里是一直出现在页面中的header部分*/}
           <BrowserRouter>
-            {' '}
-            {/*这里是根据路由显示的router部分*/}
             <div>
-              {' '}
+             {/*这里是根据路由显示的router部分*/}
               {/*exact表示完全匹配，不加这个的话 /detail 中也能匹配到/，就会让其他页面都展示出header */}
               <Route path="/" exact component={Home} />
               <Route path="/detail" exact component={Detail} />
@@ -188,35 +195,40 @@ class App extends Component {
 ### PureComponent
 
 为了提升页面性能，我们每次都在组件中使用 shouldComponentUpdata 来判断组件是否需要更新，但是这样的代码是很重复的，所以我们引入 PureCompoent 来简化这个操作
- 
-### react-loadable实现异步组件
 
-脚手架工具帮我们把一个项目的所有的代码都打包到一个bundle.js中，这导致在首页加载的时候其实把所有的页面都加载进来了，这样的话第一次访问网站的时候会显得很卡，而且很多页面虽然被加载进来了。
+### react-loadable 实现异步组件
+
+脚手架工具帮我们把一个项目的所有的代码都打包到一个 bundle.js 中，这导致在首页加载的时候其实把所有的页面都加载进来了，这样的话第一次访问网站的时候会显得很卡，而且很多页面虽然被加载进来了。
 Loadable 是一个高阶组件（简单来说，就是把组件作为输入的组件。高阶函数就是把函数作为输入的函数。在 React 里，函数和组件有时是一回事），一个可以构建组件的函数（函数可以是组件），它可以很容易的在组件层面分割代码包。
 
 简单的使用方法：
-**注意：** 在使用的时候就需要引入loadble包装过的组件了
+**注意：** 在使用的时候就需要引入 loadble 包装过的组件了
+
 ```javascript
 //用Loadable来包装组件，让页面可以被异步加载
 import React from 'react' //用来解析JSX语法
-import Loadable from 'react-loadable';
+import Loadable from 'react-loadable'
 
 const LoadableBar = Loadable({
   loader: () => import('./'),
   loading() {
     return <div>Loading...</div>
   }
-});
+})
 
-export default () => <LoadableBar/>
+export default () => <LoadableBar />
 ```
-当一个作为页面的组件被loadabel包装过之后，可能会出现路由相关的问题，因为在这个时候直接放在Route下面的这个组件已近从原来的组件变成了loadable包装过的组件了，它不能直接获取到路由里面的信息了。
-```
+
+当一个作为页面的组件被 loadabel 包装过之后，可能会出现路由相关的问题，因为在这个时候直接放在 Route 下面的这个组件已近从原来的组件变成了 loadable 包装过的组件了，它不能直接获取到路由里面的信息了。
+
+```JavaScript
 <Route path="/detail/:id" exact component={Detail} />
 ```
+
 所以我们需要在原来的组件中做一些处理让他有能力获得路由信息。
-使用withRouter包装原来的这个组件，他就可以正常的运行了
-```
+使用 withRouter 包装原来的这个组件，他就可以正常的运行了
+
+```JavaScript
 import { withRouter } from 'react-router-dom'
 
 export default withRouter(Detail)

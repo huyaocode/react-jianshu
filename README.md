@@ -1,18 +1,47 @@
 # React 简书网开发
 
+作者: 胡耀
+邮箱： [huyao.xin@outlook.com](huyao.xin@outlook.com)
+个人网站：[huyao.xin](huyao.xin)
+博客地址： [https://blog.csdn.net/qq_37746973](https://blog.csdn.net/qq_37746973)
+github地址： [https://github.com/huyaocode](https://github.com/huyaocode)
+
 ### 技术栈
 
-| what                   | way                                      |
-| ---------------------- | ---------------------------------------- |
-| React                  | 创建组件                                 |
-| Redux                  | 管理数据                                 |
-| react-redux            | 方便使用 redux                           |
-| redux-thunk            | 让store有能力接收函数，用来做异步数据获取与复杂逻辑 |
-| immutable.js           | 保证 redux 的 state 不被修改              |
-| react-router           | 路由管理                                 |
-| react-loadable         | 实现异步组件，而不是所有代码都打包在一起    |
-| styled-components      | 模块化 CSS                               |
-| react-transition-group | 动态改变 class 属性值实现 react 动画       |
+| what                   | way                                                 |
+| ---------------------- | --------------------------------------------------- |
+| React                  | 创建组件                                            |
+| Redux                  | 管理数据                                            |
+| react-redux            | 方便使用 redux                                      |
+| redux-thunk            | 让store有能力接收函数，用来做异步数据获取与复杂逻辑    |
+| immutable.js           | 保证 redux 的 state 不被修改                        |
+| react-router           | 路由管理                                            |
+| react-loadable         | 实现异步组件，而不是所有代码都打包在一起               |
+| styled-components      | 模块化 CSS                                          |
+| react-transition-group | 动态改变 class 属性值实现 react 动画                 |
+
+### 运行本项目
+注意：这里默认给您写的是cnpm哦，如果不支持请修改第三行为 npm install
+```
+git clone https://github.com/huyaocode/react-jianshu.git
+cd react-jianshu
+cnpm install
+npm start
+```
+### 我做了哪些功能？
+1. 首页的样式与布局，没有做响应式
+2. 页面头部搜索栏的动画与推荐
+3. 页面头部：登陆与退出的跳转
+4. 页面头部：写文章的权限验证，没有登陆会跳到登陆页面
+5. 登陆页的简单布局。没有验证哈
+6. 文章详情的跳转，虽然点每一个跳过去都是同一篇文章，但发送的ajax请求不同
+
+注： 所有的mock数据放在puclic/api
+
+
+### 项目截图
+![home](./home.png)
+![部分功能](./ShowMe.gif)
 
 ### 项目是如何拆分的？
 1. 按照页面进行拆分。 src/pages 目录下的每一个文件夹代表一个页面
@@ -57,16 +86,6 @@
 │              reducer.js
 │
 ├─pages                           所有的页面
-│  ├─detail                       文章详情页面
-│  │  │  index.js                 
-│  │  │  loadable.js              使用loadable包装组件，让其可异步加载代码
-│  │  │  style.js
-│  │  │
-│  │  └─store
-│  │          actionCreators.js
-│  │          constains.js
-│  │          index.js
-│  │          reducer.js
 │  │
 │  ├─home                         主页
 │  │  │  index.js                 主页入口
@@ -83,6 +102,17 @@
 │  │          constains.js        用常量替代所有的action的type值
 │  │          index.js            导出actionCreators与reducer
 │  │          reducer.js          根据不同的action修改state
+│  │
+│  ├─detail                       文章详情页面
+│  │  │  index.js                 
+│  │  │  loadable.js              使用loadable包装组件，让其可异步加载代码
+│  │  │  style.js
+│  │  │
+│  │  └─store
+│  │          actionCreators.js
+│  │          constains.js
+│  │          index.js
+│  │          reducer.js
 │  │
 │  ├─login                        登录页
 │  │  │  index.js

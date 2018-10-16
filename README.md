@@ -7,11 +7,108 @@
 | React                  | 创建组件                                 |
 | Redux                  | 管理数据                                 |
 | react-redux            | 方便使用 redux                           |
+| redux-thunk            | 让store有能力接收函数，用来做异步数据获取与复杂逻辑 |
 | immutable.js           | 保证 redux 的 state 不被修改              |
 | react-router           | 路由管理                                 |
 | react-loadable         | 实现异步组件，而不是所有代码都打包在一起    |
 | styled-components      | 模块化 CSS                               |
 | react-transition-group | 动态改变 class 属性值实现 react 动画       |
+
+### 项目是如何拆分的？
+1. 按照页面进行拆分。 src/pages 目录下的每一个文件夹代表一个页面
+2. 每一个页面的文件夹下管理它自己的数据与状态
+    通过 combine-reducer ，可以将庞大的state分割到多个文件中，在每一个代表页面的文件夹中各自管理各自的数据，可以极大的降低合作成本，并让代码清晰
+3. 将通用组件或一个不属于某一个路由的组件如header部分放到src/common文件夹中，尽可能提高服用度
+4. 在src/App.js中管理路由
+5. 在src/store/reducer中合并所有的reducer
+
+### 项目结构
+```
+│  App.js                         根组件
+│  index.js                       项目入口
+│  style.js                       注入到全局的样式, 重置默认样式
+├─store   
+|      index.js                   唯一的store
+|      reducer.js                 合并各组件的reducer
+|
+├─common                          通用组件文件夹
+│  ├─header                       头部组件，它独立于页面之外，却又较为复杂，所以单独抽出
+│  │  │  index.js                 组件入口，布局与逻辑
+│  │  │  style.js                 组件使用标签以及样式
+│  │  │
+│  │  └─stroe                     header区域所有的数据
+│  │          actionCreators.js   统一管理action
+│  │          constants.js        用常量替代所有的action的type值
+│  │          index.js            导出actionCreators与reducer
+│  │          reducer.js          根据不同的action修改state
+│  │
+│  └─tools                        存放所有的小组件
+│      │  index.js                导出所有的工具组件
+│      │
+│      ├─components               放置通用组件
+│      │  └─backTop               回到顶部组件
+│      │          index.js        
+│      │          style.js        
+│      │
+│      └─store                    这里打算用一个文件夹来管理所有通用组件的数据，↓
+│              actionCreators.js  因为通用组件主要是样式，逻辑是少数
+│              contants.js
+│              index.js
+│              reducer.js
+│
+├─pages                           所有的页面
+│  ├─detail                       文章详情页面
+│  │  │  index.js                 
+│  │  │  loadable.js              使用loadable包装组件，让其可异步加载代码
+│  │  │  style.js
+│  │  │
+│  │  └─store
+│  │          actionCreators.js
+│  │          constains.js
+│  │          index.js
+│  │          reducer.js
+│  │
+│  ├─home                         主页
+│  │  │  index.js                 主页入口
+│  │  │  style.js                 主页样式
+│  │  │
+│  │  ├─components                首页被划分为下列组件
+│  │  │      List.js              列表组件
+│  │  │      Recommed.js          推荐组件
+│  │  │      Topic.js             话题组件
+│  │  │      Writer.js            作者组件
+│  │  │
+│  │  └─store
+│  │          actionCreators.js   统一管理action
+│  │          constains.js        用常量替代所有的action的type值
+│  │          index.js            导出actionCreators与reducer
+│  │          reducer.js          根据不同的action修改state
+│  │
+│  ├─login                        登录页
+│  │  │  index.js
+│  │  │  style.js
+│  │  │
+│  │  └─store
+│  │          actionCreators.js
+│  │          constains.js
+│  │          index.js
+│  │          reducer.js
+│  │
+│  └─write                        写文章页
+│          index.js               没有再往下写了
+│
+└─statics                         静态资源文件
+   │  logo.png                    
+   │
+   └─iconfont                     iconfont文件，全是美美的图标
+           demo.css
+           iconfont.css
+           iconfont.eot
+           iconfont.js
+           iconfont.svg
+           iconfont.ttf
+           iconfont.woff
+```
 
 ### styled-components
 
